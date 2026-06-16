@@ -1,0 +1,77 @@
+{
+  "project": "Вертер",
+  "description": "Ежедневный арт-сайт: случайная статья → ТЗ → сайт",
+  "vram_budget_gb": 8,
+
+  "agents": {
+    "creative": {
+      "name": "креативщик",
+      "role": "Анализ случайной статьи (текст + изображения), генерация ТЗ на сайт",
+      "model": "qwen3.5:9b",
+      "model_size_gb": 6.6,
+      "context": 256000,
+      "capabilities": ["text", "vision"],
+      "prompt_template": "Ты — креативный директор арт-проекта 'Вертер'. Проанализируй эту статью и придумай концепцию сайта на сегодня. Опиши: 1) настроение/стиль (словами), 2) цветовую палитру (конкретные hex-цвета), 3) структуру страницы (секции и их порядок), 4) контент (заголовки, текст), 5) интерактивные элементы. Ограничение — только технические возможности интернета. Ответ дай в свободной форме, подробно.",
+      "workflow": "daily_random_article + images → анализ → ТЗ"
+    },
+    "designer": {
+      "name": "дизайнер",
+      "role": "ТЗ → визуальный дизайн + CSS-система",
+      "model": "qwen2.5-coder:7b",
+      "model_size_gb": 4.7,
+      "context": 32768,
+      "capabilities": ["text", "code"],
+      "prompt_template": "Ты — веб-дизайнер. На основе ТЗ создай CSS: цветовую схему, типографику (font-family, sizes), layout (grid/flexbox), анимации, адаптивность. Верни ТОЛЬКО валидный CSS-код в markdown-блоке ```css. Без лишних объяснений.",
+      "workflow": "ТЗ → CSS → дизайн-система"
+    },
+    "frontend": {
+      "name": "фронтенд-разработчик",
+      "role": "Дизайн → HTML + CSS + JS реализация",
+      "model": "qwen2.5-coder:7b",
+      "model_size_gb": 4.7,
+      "context": 32768,
+      "capabilities": ["text", "code"],
+      "prompt_template": "Ты — frontend-разработчик. Реализуй одностраничный сайт по ТЗ и CSS. Используй современный CSS (grid, flexbox, custom properties, анимации). Минимум зависимостей. Верни ПОЛНЫЙ HTML-файл с CSS внутри <style> и JS внутри <script>. Markdown-блок: ```html",
+      "workflow": "дизайн + ТЗ → index.html"
+    },
+    "editor": {
+      "name": "контент-редактор",
+      "role": "Форматирование текстов, подготовка контента для сайта",
+      "model": "llama3:8b",
+      "model_size_gb": 4.7,
+      "context": 8192,
+      "capabilities": ["text"],
+      "prompt_template": "Ты — контент-редактор. Подготовь тексты для сайта по ТЗ: заголовки, абзацы, цитаты, подписи. Верни HTML-разметку контента (без <html>/<body>, только <h1>, <p>, <blockquote> и т.д.). Markdown-блок: ```html",
+      "workflow": "ТЗ → текстовый контент"
+    },
+    "critic": {
+      "name": "критик",
+      "role": "QA и ревью готового сайта",
+      "model": "deepseek-r1:8b",
+      "model_size_gb": 5.2,
+      "context": 32768,
+      "capabilities": ["text"],
+      "prompt_template": "Ты — тестировщик и художественный критик. Проверь сгенерированный сайт: 1) все ли ссылки/скрипты работают, 2) есть ли ошибки в вёрстке, 3) соответствует ли он ТЗ (стиль, настроение, цвета, структура), 4) предложи конкретные улучшения. Будь строгим, но конструктивным.",
+      "workflow": "сайт + ТЗ → список замечаний → финальная версия"
+    }
+  },
+
+  "pipeline": {
+    "daily_cycle": [
+      {"step": 1, "agent": "creative", "action": "fetch_random_article → generate_TZ"},
+      {"step": 2, "agent": "designer", "action": "TZ → CSS"},
+      {"step": 3, "agent": "frontend", "action": "TZ + CSS → full site"},
+      {"step": 4, "agent": "editor", "action": "TZ → text content"},
+      {"step": 5, "agent": "critic", "action": "review site → issues"},
+      {"step": 6, "agent": "frontend", "action": "fix issues → final index.html"}
+    ],
+    "model_loading_strategy": "sequential_swap",
+    "notes": [
+      "creative использует qwen3.5:9b (6.6GB) — выгружается после шага",
+      "designer + frontend используют qwen2.5-coder:7b (4.7GB) — код-специализированная",
+      "critic использует deepseek-r1:8b (5.2GB) — мощная модель для анализа",
+      "оптимальные модели (не скачаны): qwen2.5-coder:7b (для кода), qwen2.5:3b (для редактора)",
+      "ollama pull qwen2.5-coder:7b && ollama pull qwen2.5:3b — для лучшего результата"
+    ]
+  }
+}

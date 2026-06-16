@@ -1,0 +1,20 @@
+{
+  "name": "verter",
+  "version": "1.0.0",
+  "description": "Вертер — ежедневный арт-сайт, генерируемый AI-агентами",
+  "type": "module",
+  "main": "orchestrator.js",
+  "scripts": {
+    "start": "node orchestrator.js",
+    "start:article": "node orchestrator.js --article-file article.json",
+    "git:setup": "node git-setup.js",
+    "git:push": "node git-setup.js --push",
+    "test": "node --check orchestrator.js"
+  },
+  "keywords": ["verter", "art", "ai", "ollama"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "isomorphic-git": "^1.38.5"
+  }
+}
