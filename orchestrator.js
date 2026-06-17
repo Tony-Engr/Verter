@@ -16,6 +16,10 @@ import { fileURLToPath } from "node:url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const CONFIG_PATH = path.join(__dirname, "agents_config.json");
 const OUTPUT_ROOT = path.join(__dirname, "output");
+const STATE_PATH = path.join(__dirname, ".verter_state.json");
+const TEMP_MIN = 0.3;
+const TEMP_MAX = 1.7;
+const TEMP_STEP = 0.1;
 
 // ─────────────────────────────────────────────
 // Helpers
@@ -34,6 +38,23 @@ function save(dir, name, content) {
   fs.writeFileSync(path.join(dir, name), content, "utf-8");
 }
 
+function loadState() {
+  try {
+    return JSON.parse(fs.readFileSync(STATE_PATH, "utf-8"));
+  } catch {
+    return { temperature: TEMP_MIN, runCount: 0 };
+  }
+}
+
+function saveState(state) {
+  fs.writeFileSync(STATE_PATH, JSON.stringify(state, null, 2) + "\n", "utf-8");
+}
+
+function nextTemperature(current) {
+  const next = Math.round((current + TEMP_STEP) * 10) / 10;
+  return next > TEMP_MAX ? TEMP_MIN : next;
+}
+
 // ─────────────────────────────────────────────
 // Ollama API
 // ─────────────────────────────────────────────
@@ -45,9 +66,12 @@ class OllamaError extends Error {
   }
 }
 
-async function callOllama(model, messages, timeoutMs = 600_000) {
+async function callOllama(model, messages, { timeoutMs = 600_000, temperature } = {}) {
   const url = "http://localhost:11434/api/chat";
-  const body = JSON.stringify({ model, messages, stream: false, options: { keep_alive: 0 } });
+  const body = JSON.stringify({
+    model, messages, stream: false,
+    options: temperature !== undefined ? { keep_alive: 0, temperature } : { keep_alive: 0 },
+  });
 
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
@@ -84,16 +108,16 @@ async function callOllama(model, messages, timeoutMs = 600_000) {
   return data.message.content.trim();
 }
 
-async function callAgent(agentCfg, userInput) {
+async function callAgent(agentCfg, userInput, extraOpts = {}) {
   const model = agentCfg.model;
   const systemPrompt = agentCfg.prompt_template;
   const messages = [
     { role: "system", content: systemPrompt },
     { role: "user", content: userInput },
   ];
-  eprint(`  model=${model}`);
+  eprint(`  model=${model}${extraOpts.temperature !== undefined ? ` temp=${extraOpts.temperature}` : ""}`);
   try {
-    return await callOllama(model, messages);
+    return await callOllama(model, messages, extraOpts);
   } catch (err) {
     eprint(`  ERROR: ${err.message}`);
     throw err;
@@ -162,9 +186,15 @@ async function runPipeline(article) {
   const articleText = `Заголовок: ${article.title}\n\nИсточник: ${article.source}\nURL: ${article.url}\n\n---\n\n${article.content}`;
   eprint(`\n[0] Статья: ${article.source}: ${article.title}`);
 
-  // Step 1: Creative → TZ
-  eprint("\n[1] Креативщик → ТЗ");
-  const tz = await callAgent(agents.creative, articleText);
+  // Step 1: Creative → TZ (with temperature cycle)
+  const state = loadState();
+  const temp = state.temperature;
+  eprint(`\n[1] Креативщик → ТЗ (temp=${temp})`);
+  const tz = await callAgent(agents.creative, articleText, { temperature: temp });
+  // Increment temperature for next run
+  state.temperature = nextTemperature(temp);
+  state.runCount = (state.runCount || 0) + 1;
+  saveState(state);
   save(dayDir, "01_tz.txt", tz);
 
   // Step 2: Designer → CSS
@@ -220,6 +250,7 @@ ${finalHtml}
     `Источник: ${article.source}: ${article.title}`,
     `URL: ${article.url}`,
     `Дата: ${dateStr}`,
+    `Temp: ${temp}`,
   ].join("\n");
   save(dayDir, "summary.txt", summary);
 

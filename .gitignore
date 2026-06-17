@@ -6,3 +6,4 @@ article.json
 Thumbs.db
 __pycache__/
 *.pyc
+.verter_state.json
