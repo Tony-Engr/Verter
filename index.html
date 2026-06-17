@@ -1,224 +1,287 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BRP Lake Caliraya - The Last Anchor</title>
-    <style>
-        :root {
-            --deep-abyss-blue: #0B1324;
-            --oxidized-copper: #8C5A4D;
-            --signal-red: #B91C1C;
-            --fog-grey: #E2E8F0;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Henry M. Ridgely — Голос Мэриленда</title>
+  <style>
+    /* Reset and base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-            --font-primary: 'Roboto', sans-serif;
-            --font-secondary: 'Arial Black', Gadget, sans-serif;
+    body {
+      font-family: 'Playfair Display', serif;
+      background-color: #F4EFEA;
+      color: #2C1810;
+      line-height: 1.6;
+      text-align: center;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z"/></svg>') 7 7 auto;
+    }
 
-            --container-width: 1200px;
-        }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-primary);
-            background-color: var(--deep-abyss-blue);
-            color: var(--fog-grey);
-            overflow-x: hidden;
-        }
+    .container {
+      width: 90%;
+      margin: 0 auto;
+    }
 
-        .container {
-            width: 90%;
-            max-width: var(--container-width);
-            margin: 0 auto;
-        }
+    /* Hero Block */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 64 64"><path d="M32,0C14.3,0,0,14.3,0,32s14.3,32,32,32s32-14.3,32-32S49.7,0,32,0z M32,56c-8.8,0-16-7.2-16-16s7.2-16,16-16s16,7.2,16,16S40.8,56,32,56z"/></svg>');
+      background-size: cover;
+      background-position: center;
+    }
 
-        .hero-section {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url('hero-background.webp');
-            background-size: cover;
-            background-position: center;
-        }
+    .hero img {
+      max-width: 80%;
+      transition: transform 0.3s ease-in-out;
+    }
 
-        .hero-section video,
-        .hero-section .glitch-text {
-            width: 100%;
-            height: auto;
-        }
+    .hero h1 {
+      font-size: 5rem;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeIn 2s forwards;
+    }
 
-        .hero-title {
-            font-family: var(--font-secondary);
-            font-size: 4rem;
-            text-align: center;
-            color: var(--signal-red);
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
 
-        .hero-subtitle {
-            font-size: 1.5rem;
-            text-align: center;
-            margin-top: 20px;
-        }
+    /* Navigation */
+    nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
 
-        .identity-section,
-        .timeline-section,
-        .specs-section,
-        .epilogue-section {
-            padding: 60px 0;
-            position: relative;
-        }
+    nav a {
+      margin: 0 1rem;
+      color: #C19A6B;
+    }
 
-        .scroll-trigger {
-            transform: translateY(0);
-            transition: transform 1s ease-in-out;
-        }
+    nav a:hover {
+      cursor: pointer;
+      color: white;
+    }
 
-        .rust-cursor {
-            cursor: url('rust-cursor.png'), auto;
-        }
+    /* Epigraph/Context */
+    .epigraph {
+      padding: 2rem 0;
+      background-color: #E8E3DD;
+    }
 
-        .audio-visual-icon {
-            display: none;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            background-image: url('audio-icon.webp');
-            background-size: cover;
-        }
+    .epigraph p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
 
-        .glitch-text {
-            position: relative;
-            animation: glitch 1s infinite linear;
-        }
+    /* Timeline */
+    .timeline {
+      position: relative;
+      height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        @keyframes glitch {
-            0% { clip-path: inset(0 0 0 0); }
-            25% { clip-path: inset(0 -100% 0 0); }
-            75% { clip-path: inset(0 0 0 -100%); }
-            100% { clip-path: inset(0 0 0 0); }
-        }
+    .timeline-line {
+      width: 2px;
+      background-color: #8D6E63;
+      height: 100%;
+    }
 
-        /* Media Queries for Responsiveness */
-        @media (max-width: 900px) {
-            .hero-title {
-                font-size: 3rem;
-            }
+    .timeline-node {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+    }
 
-            .hero-subtitle {
-                font-size: 1.2rem;
-            }
-        }
+    .timeline-node img {
+      width: 4rem;
+      border-radius: 50%;
+      border: 2px solid #C19A6B;
+    }
 
-        @media (max-width: 600px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
+    .timeline-node:hover {
+      transform: translateY(-60%) scale(1.1);
+      box-shadow: 0 0 10px rgba(209, 154, 107, 0.5);
+    }
 
-            .hero-subtitle {
-                font-size: 1rem;
-            }
-        }
-    </style>
+    /* Interactive Cards */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .card img {
+      width: 100%;
+      height: auto;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    }
+
+    /* Audio Context (optional) */
+    .audio-context {
+      display: none;
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .audio-control {
+      width: 10rem;
+      height: 10rem;
+      border-radius: 50%;
+      background-color: rgba(255,255,255,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .audio-control::before {
+      content: '🔊';
+      font-size: 2rem;
+    }
+
+    /* Custom Cursor */
+    body {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z"/></svg>') 7 7 auto;
+    }
+
+    .active {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z"/></svg>') 7 7 auto;
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .epigraph p {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cards-grid {
+        grid-template-columns: repeat(1, minmax(200px, 1fr));
+      }
+
+      .card img {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
+  <nav>
+    <a href="#hero">Главная</a>
+    <a href="#epigraph">Контекст</a>
+    <a href="#timeline">Хронология</a>
+    <a href="#cards">Документы</a>
+    <a href="#gallery">Галерея</a>
+    <a href="#footer">Подписка</a>
+  </nav>
 
-<div class="hero-section">
-    <video autoplay loop muted playsinline>
-        <source src="hero-video.mp4" type="video/mp4">
-    </video>
-    <div class="glitch-text">
-        <h1 class="hero-title">BRP Lake Caliraya (AF-81)</h1>
-        <p class="hero-subtitle">The Last Anchor.</p>
-    </div>
-</div>
+  <div id="hero" class="hero">
+    <img src="data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 64 64"><path d="M32,0C14.3,0,0,14.3,0,32s14.3,32,32,32s32-14.3,32-32S49.7,0,32,0z M32,56c-8.8,0-16-7.2-16-16s7.2-16,16-16s16,7.2,16,16S40.8,56,32,56z"/></svg>" alt="Henry M. Ridgely Portrait">
+    <h1>HENRY M. RIDGELY — Голос Мэриленда</h1>
+  </div>
 
-<div class="identity-section" id="identity">
-    <h2>Из стали PNOC в флот</h2>
-    <p>Это был не просто корабль. Это двойной корпус, подаренный государству в 2014 году. Единственный китайский актив на палубе Филиппинского ВМФ. Он служил топливным хранилищем для флота — от базы до судна и обратно.</p>
-</div>
+  <div id="epigraph" class="epigraph">
+    <p>История не пишется только победителями. Она шепчет имена тех, кто стоял у истоков законов и судьб штатов. В этом проекте мы возвращаем голос Генри Риджли — человека, чья карьера пересечет путь от конгресса до Сената в самые драматичные годы американской истории.</p>
+  </div>
 
-<div class="timeline-section" id="timeline">
-    <h2>Жизненный цикл</h2>
-    <div class="timeline-container">
-        <!-- Таймлайн элементы будут добавлены динамически -->
-    </div>
-</div>
+  <div id="timeline" class="timeline">
+    <div class="timeline-line"></div>
+    <div class="timeline-node" data-src="/path/to/henry-ridgely-1803.jpg"><img src="/path/to/henry-ridgely-1803-thumbnail.jpg" alt="1803"></div>
+    <div class="timeline-node" data-src="/path/to/henry-ridgely-1845.jpg"><img src="/path/to/henry-ridgely-1845-thumbnail.jpg" alt="1845"></div>
+    <div class="timeline-node" data-src="/path/to/henry-ridgely-1861.jpg"><img src="/path/to/henry-ridgely-1861-thumbnail.jpg" alt="1861"></div>
+    <div class="timeline-node" data-src="/path/to/henry-ridgely-later.jpg"><img src="/path/to/henry-ridgely-later-thumbnail.jpg" alt="Later"></div>
+  </div>
 
-<div class="specs-section" id="specs">
-    <h2>Свидетельство (Technical Specs)</h2>
-    <ul>
-        <li><strong>Тоннаж:</strong> 10,000 тонн</li>
-        <li><strong>Вооружение:</strong> Торпеды, ракета-ракетные установки, орудия</li>
-    </ul>
-</div>
+  <div id="cards" class="cards-grid">
+    <div class="card" data-src="/path/to/document1.jpg"><img src="/path/to/document1-thumbnail.jpg" alt="Document 1"></div>
+    <div class="card" data-src="/path/to/document2.jpg"><img src="/path/to/document2-thumbnail.jpg" alt="Document 2"></div>
+    <div class="card" data-src="/path/to/document3.jpg"><img src="/path/to/document3-thumbnail.jpg" alt="Document 3"></div>
+    <div class="card" data-src="/path/to/document4.jpg"><img src="/path/to/document4-thumbnail.jpg" alt="Document 4"></div>
+  </div>
 
-<div class="epilogue-section" id="epilogue">
-    <h2>Эпилог</h2>
-    <p>Судьба BRP Lake Caliraya — это история упорства и храбрости. Несмотря на все трудности, он продолжал служить своей стране до самого конца.</p>
-</div>
+  <div id="gallery">
+    <!-- Slider carousel will go here -->
+  </div>
 
-<div class="audio-visual-icon" id="audio-visual">
-    <button onclick="toggleAudioVisual()">Toggle Audio/Visual</button>
-</div>
+  <footer id="footer" class="footer">
+    <p>© 2023 Henry M. Ridgely — Голос Мэриленда</p>
+  </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const timelineContainer = document.querySelector('.timeline-container');
-        const timelineItems = [
-            { date: '2014', event: 'Подарен государству' },
-            { date: '2015', event: 'Первый миссия' },
-            { date: '2016', event: 'Вторая миссия' },
-            { date: '2017', event: 'Третья миссия' },
-            { date: '2018', event: 'Последняя миссия' }
-        ];
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const heroH1 = document.querySelector('.hero h1');
+      heroH1.style.animationDelay = '2s';
 
-        timelineItems.forEach(item => {
-            const timelineItem = document.createElement('div');
-            timelineItem.classList.add('timeline-item');
-            timelineItem.innerHTML = `
-                <div class="timeline-date">${item.date}</div>
-                <div class="timeline-event">${item.event}</div>
-            `;
-            timelineContainer.appendChild(timelineItem);
+      const timelineNodes = document.querySelectorAll('.timeline-node');
+      timelineNodes.forEach(node => {
+        node.addEventListener('click', () => {
+          const imgSrc = node.getAttribute('data-src');
+          const modal = document.createElement('div');
+          modal.classList.add('modal');
+          modal.innerHTML = `<img src="${imgSrc}" alt="Document" />`;
+          document.body.appendChild(modal);
+          modal.addEventListener('click', () => {
+            document.body.removeChild(modal);
+          });
         });
+      });
 
-        gsap.registerPlugin(ScrollTrigger);
-
-        const sections = document.querySelectorAll('.scroll-trigger');
-        sections.forEach(section => {
-            ScrollTrigger.create({
-                trigger: section,
-                start: "top center",
-                end: "bottom center",
-                onEnter: () => {
-                    section.classList.add('animate__animated', 'animate__fadeInUp');
-                }
-            });
+      const cards = document.querySelectorAll('.card');
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          const imgSrc = card.getAttribute('data-src');
+          const modal = document.createElement('div');
+          modal.classList.add('modal');
+          modal.innerHTML = `<img src="${imgSrc}" alt="Document" />`;
+          document.body.appendChild(modal);
+          modal.addEventListener('click', () => {
+            document.body.removeChild(modal);
+          });
         });
+      });
 
-        const audioVisualIcon = document.getElementById('audio-visual');
-        audioVisualIcon.addEventListener('click', function() {
-            this.style.display = this.style.display === 'none' ? 'block' : 'none';
-        });
+      const audioContext = document.querySelector('.audio-context');
+      audioContext.style.display = 'block';
     });
-
-    function toggleAudioVisual() {
-        const icon = document.querySelector('.audio-visual-icon button');
-        if (icon.textContent.includes('Toggle Audio/Visual')) {
-            icon.textContent = 'Hide Audio/Visual';
-        } else {
-            icon.textContent = 'Toggle Audio/Visual';
-        }
-        // Добавьте здесь логику для показа или скрытия аудио-визуальных элементов
-    }
-</script>
-
+  </script>
 </body>
 </html>
