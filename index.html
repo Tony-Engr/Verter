@@ -1,287 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Henry M. Ridgely — Голос Мэриленда</title>
-  <style>
-    /* Reset and base styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cefn Golau: Stone Echoes</title>
+<style>
+/* Variables */
+:root {
+    --primary-bg: #1A2634;
+    --secondary-text: #7D8C95;
+    --accent-color: #3A4B3F;
+    --rust-color: #C0582E;
+    --font-size-base: 1rem;
+    --transition-duration: 0.3s;
+}
+
+/* Typography */
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: var(--secondary-text);
+    background-color: var(--primary-bg);
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3 {
+    font-weight: normal;
+    margin-top: 0;
+}
+
+/* Layout */
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hero-section, .context-section, .stones-section, .architecture-section, .sound-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Hero Section */
+.hero-section {
+    background-color: var(--primary-bg);
+    position: relative;
+}
+
+.hero-video {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    opacity: 0.85;
+    z-index: -1;
+}
+
+.logo {
+    display: none;
+    animation: fadeIn 2s forwards;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    color: var(--accent-color);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Context Section */
+.context-section {
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjN2Q4YzkiLz4KPC9zdmc+') no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: white;
+}
+
+.context-content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Stones Section */
+.stones-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.canvas-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.marker-tooltip {
+    background-color: var(--primary-bg);
+    color: white;
+    border-radius: 5px;
+    padding: 0.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    display: none;
+}
+
+.marker-tooltip.active {
+    display: block;
+}
+
+/* Architecture Section */
+.architecture-section .container {
+    flex-direction: column;
+    align-items: center;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.gallery-text {
+    text-align: center;
+    font-size: var(--font-size-base);
+}
+
+/* Sound Section */
+.sound-section .container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wind-button, .water-sound-button {
+    background-color: var(--secondary-text);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: var(--font-size-base);
+    cursor: pointer;
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.wind-button .wind-icon, .water-sound-button .water-icon {
+    margin-right: 0.5rem;
+}
+
+.wind-button:hover, .water-sound-button:hover {
+    background-color: var(--rust-color);
+    transition: background-color var(--transition-duration);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-video {
+        height: auto;
+        padding-top: 56.25%;
     }
 
-    body {
-      font-family: 'Playfair Display', serif;
-      background-color: #F4EFEA;
-      color: #2C1810;
-      line-height: 1.6;
-      text-align: center;
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z"/></svg>') 7 7 auto;
+    .logo {
+        font-size: 2rem;
     }
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    .gallery-item {
+        max-width: none;
+    }
+}
+
+@media (min-width: 1024px) {
+    .hero-section {
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjN2Q4YzkiLz4KPC9zdmc+') no-repeat;
     }
 
-    .container {
-      width: 90%;
-      margin: 0 auto;
+    .context-section {
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjN2Q4YzkiLz4KPC9zdmc+') no-repeat;
     }
-
-    /* Hero Block */
-    .hero {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 64 64"><path d="M32,0C14.3,0,0,14.3,0,32s14.3,32,32,32s32-14.3,32-32S49.7,0,32,0z M32,56c-8.8,0-16-7.2-16-16s7.2-16,16-16s16,7.2,16,16S40.8,56,32,56z"/></svg>');
-      background-size: cover;
-      background-position: center;
-    }
-
-    .hero img {
-      max-width: 80%;
-      transition: transform 0.3s ease-in-out;
-    }
-
-    .hero h1 {
-      font-size: 5rem;
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeIn 2s forwards;
-    }
-
-    @keyframes fadeIn {
-      to { opacity: 1; }
-    }
-
-    /* Navigation */
-    nav {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-
-    nav a {
-      margin: 0 1rem;
-      color: #C19A6B;
-    }
-
-    nav a:hover {
-      cursor: pointer;
-      color: white;
-    }
-
-    /* Epigraph/Context */
-    .epigraph {
-      padding: 2rem 0;
-      background-color: #E8E3DD;
-    }
-
-    .epigraph p {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    /* Timeline */
-    .timeline {
-      position: relative;
-      height: 80vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .timeline-line {
-      width: 2px;
-      background-color: #8D6E63;
-      height: 100%;
-    }
-
-    .timeline-node {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      transition: all 0.3s ease-in-out;
-      cursor: pointer;
-    }
-
-    .timeline-node img {
-      width: 4rem;
-      border-radius: 50%;
-      border: 2px solid #C19A6B;
-    }
-
-    .timeline-node:hover {
-      transform: translateY(-60%) scale(1.1);
-      box-shadow: 0 0 10px rgba(209, 154, 107, 0.5);
-    }
-
-    /* Interactive Cards */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 2rem;
-    }
-
-    .card {
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease-in-out;
-    }
-
-    .card img {
-      width: 100%;
-      height: auto;
-    }
-
-    .card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-    }
-
-    /* Audio Context (optional) */
-    .audio-context {
-      display: none;
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .audio-control {
-      width: 10rem;
-      height: 10rem;
-      border-radius: 50%;
-      background-color: rgba(255,255,255,0.8);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .audio-control::before {
-      content: '🔊';
-      font-size: 2rem;
-    }
-
-    /* Custom Cursor */
-    body {
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z"/></svg>') 7 7 auto;
-    }
-
-    .active {
-      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z"/></svg>') 7 7 auto;
-    }
-
-    /* Media Queries */
-    @media (max-width: 768px) {
-      .hero h1 {
-        font-size: 3rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .epigraph p {
-        font-size: 1.2rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .cards-grid {
-        grid-template-columns: repeat(1, minmax(200px, 1fr));
-      }
-
-      .card img {
-        width: 100%;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 <body>
-  <nav>
-    <a href="#hero">Главная</a>
-    <a href="#epigraph">Контекст</a>
-    <a href="#timeline">Хронология</a>
-    <a href="#cards">Документы</a>
-    <a href="#gallery">Галерея</a>
-    <a href="#footer">Подписка</a>
-  </nav>
 
-  <div id="hero" class="hero">
-    <img src="data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 64 64"><path d="M32,0C14.3,0,0,14.3,0,32s14.3,32,32,32s32-14.3,32-32S49.7,0,32,0z M32,56c-8.8,0-16-7.2-16-16s7.2-16,16-16s16,7.2,16,16S40.8,56,32,56z"/></svg>" alt="Henry M. Ridgely Portrait">
-    <h1>HENRY M. RIDGELY — Голос Мэриленда</h1>
-  </div>
+<div class="hero-section">
+    <video class="hero-video" autoplay loop muted playsinline>
+        <source src="data:video/mp4;base64,AAAA..." type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="logo">Cefn Golau</div>
+</div>
 
-  <div id="epigraph" class="epigraph">
-    <p>История не пишется только победителями. Она шепчет имена тех, кто стоял у истоков законов и судьб штатов. В этом проекте мы возвращаем голос Генри Риджли — человека, чья карьера пересечет путь от конгресса до Сената в самые драматичные годы американской истории.</p>
-  </div>
+<div class="context-section">
+    <h2>The Great Silence</h2>
+    <p>In 1832, a dense fog enveloped not only nature but also sorrow. Of the nearly thousand inhabitants of the village, thousands perished — half the population. This memorial cemetery became the sole witness to this demographic collapse.</p>
+</div>
 
-  <div id="timeline" class="timeline">
-    <div class="timeline-line"></div>
-    <div class="timeline-node" data-src="/path/to/henry-ridgely-1803.jpg"><img src="/path/to/henry-ridgely-1803-thumbnail.jpg" alt="1803"></div>
-    <div class="timeline-node" data-src="/path/to/henry-ridgely-1845.jpg"><img src="/path/to/henry-ridgely-1845-thumbnail.jpg" alt="1845"></div>
-    <div class="timeline-node" data-src="/path/to/henry-ridgely-1861.jpg"><img src="/path/to/henry-ridgely-1861-thumbnail.jpg" alt="1861"></div>
-    <div class="timeline-node" data-src="/path/to/henry-ridgely-later.jpg"><img src="/path/to/henry-ridgely-later-thumbnail.jpg" alt="Later"></div>
-  </div>
+<div class="stones-section">
+    <canvas id="stonesCanvas" class="canvas-container"></canvas>
+    <div class="marker-tooltip active">John Doe - 1825</div>
+</div>
 
-  <div id="cards" class="cards-grid">
-    <div class="card" data-src="/path/to/document1.jpg"><img src="/path/to/document1-thumbnail.jpg" alt="Document 1"></div>
-    <div class="card" data-src="/path/to/document2.jpg"><img src="/path/to/document2-thumbnail.jpg" alt="Document 2"></div>
-    <div class="card" data-src="/path/to/document3.jpg"><img src="/path/to/document3-thumbnail.jpg" alt="Document 3"></div>
-    <div class="card" data-src="/path/to/document4.jpg"><img src="/path/to/document4-thumbnail.jpg" alt="Document 4"></div>
-  </div>
+<div class="architecture-section">
+    <div class="container">
+        <h2>Architecture & Legacy</h2>
+        <div class="gallery-item">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIA..." alt="Grave">
+            <div class="gallery-text">Stone graves tell the story of individual lives cut short in their prime. Place your hand on the screen — let the wind carry their names to you.</div>
+        </div>
+    </div>
+</div>
 
-  <div id="gallery">
-    <!-- Slider carousel will go here -->
-  </div>
+<div class="sound-section">
+    <div class="container">
+        <h2>Sound of Silence</h2>
+        <button id="windButton" class="wind-button" onclick="toggleWind()">
+            <span class="wind-icon">🍃</span> Wind
+        </button>
+        <button id="waterSoundButton" class="water-sound-button" onclick="toggleWater()">
+            <span class="water-icon">💧</span> Water Sound
+        </button>
+    </div>
+</div>
 
-  <footer id="footer" class="footer">
-    <p>© 2023 Henry M. Ridgely — Голос Мэриленда</p>
-  </footer>
+<script>
+const windButton = document.getElementById('windButton');
+const waterSoundButton = document.getElementById('waterSoundButton');
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const heroH1 = document.querySelector('.hero h1');
-      heroH1.style.animationDelay = '2s';
+function toggleWind() {
+    windButton.classList.toggle('active');
+}
 
-      const timelineNodes = document.querySelectorAll('.timeline-node');
-      timelineNodes.forEach(node => {
-        node.addEventListener('click', () => {
-          const imgSrc = node.getAttribute('data-src');
-          const modal = document.createElement('div');
-          modal.classList.add('modal');
-          modal.innerHTML = `<img src="${imgSrc}" alt="Document" />`;
-          document.body.appendChild(modal);
-          modal.addEventListener('click', () => {
-            document.body.removeChild(modal);
-          });
-        });
-      });
+function toggleWater() {
+    waterSoundButton.classList.toggle('active');
+}
+</script>
 
-      const cards = document.querySelectorAll('.card');
-      cards.forEach(card => {
-        card.addEventListener('click', () => {
-          const imgSrc = card.getAttribute('data-src');
-          const modal = document.createElement('div');
-          modal.classList.add('modal');
-          modal.innerHTML = `<img src="${imgSrc}" alt="Document" />`;
-          document.body.appendChild(modal);
-          modal.addEventListener('click', () => {
-            document.body.removeChild(modal);
-          });
-        });
-      });
-
-      const audioContext = document.querySelector('.audio-context');
-      audioContext.style.display = 'block';
-    });
-  </script>
 </body>
 </html>
