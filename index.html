@@ -3,294 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verter: Truth in Conflict</title>
+    <title>BRP Lake Caliraya - The Last Anchor</title>
     <style>
-        /* General Styles */
-        html, body {
+        :root {
+            --deep-abyss-blue: #0B1324;
+            --oxidized-copper: #8C5A4D;
+            --signal-red: #B91C1C;
+            --fog-grey: #E2E8F0;
+
+            --font-primary: 'Roboto', sans-serif;
+            --font-secondary: 'Arial Black', Gadget, sans-serif;
+
+            --container-width: 1200px;
+        }
+
+        body {
             margin: 0;
             padding: 0;
-            font-family: 'Inter', sans-serif;
-            color: #C2B295;
-            background-color: #121418;
-            scroll-behavior: smooth;
+            font-family: var(--font-primary);
+            background-color: var(--deep-abyss-blue);
+            color: var(--fog-grey);
             overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
+        .container {
+            width: 90%;
+            max-width: var(--container-width);
+            margin: 0 auto;
+        }
+
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('hero-background.webp');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-section video,
+        .hero-section .glitch-text {
+            width: 100%;
+            height: auto;
+        }
+
+        .hero-title {
+            font-family: var(--font-secondary);
+            font-size: 4rem;
+            text-align: center;
+            color: var(--signal-red);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .identity-section,
+        .timeline-section,
+        .specs-section,
+        .epilogue-section {
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .scroll-trigger {
+            transform: translateY(0);
+            transition: transform 1s ease-in-out;
+        }
+
+        .rust-cursor {
+            cursor: url('rust-cursor.png'), auto;
+        }
+
+        .audio-visual-icon {
+            display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100%" height="100%" fill="rgba(0,0,0,0.5)" opacity="0"/></svg>');
-            background-repeat: repeat;
-            pointer-events: none;
-        }
-
-        /* Hero Block */
-        .hero {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-image: url('/hero-bg.svg');
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            background-image: url('audio-icon.webp');
             background-size: cover;
-            color: #F4F1EA;
+        }
+
+        .glitch-text {
             position: relative;
+            animation: glitch 1s infinite linear;
         }
 
-        .hero h1 {
-            font-size: 3rem;
-            text-shadow: 0 0 20px rgba(0,0,0,0.7);
+        @keyframes glitch {
+            0% { clip-path: inset(0 0 0 0); }
+            25% { clip-path: inset(0 -100% 0 0); }
+            75% { clip-path: inset(0 0 0 -100%); }
+            100% { clip-path: inset(0 0 0 0); }
         }
 
-        /* Context Block */
-        .context .timeline {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 50px 0;
-            background-color: #A8432B;
-            color: #F4F1EA;
-            position: relative;
+        /* Media Queries for Responsiveness */
+        @media (max-width: 900px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
         }
 
-        .timeline-item {
-            text-align: center;
-            opacity: 0.7;
-            transition: opacity 0.3s ease-in-out;
-        }
+        @media (max-width: 600px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
 
-        .timeline-item:hover,
-        .timeline-item.active {
-            opacity: 1;
-        }
-
-        /* The Numbers Block */
-        .numbers .country-select {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 50px 0;
-            background-color: #7E90A5;
-            color: #F4F1EA;
-            position: relative;
-        }
-
-        .country-card {
-            text-align: center;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .country-card:hover {
-            transform: scale(1.05);
-        }
-
-        /* Fracture Block */
-        .fracture .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 50px 0;
-            background-color: #C2B295;
-            color: #F4F1EA;
-            position: relative;
-        }
-
-        .fracture .grid-item {
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 20px;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        .fracture .grid-item:hover {
-            background-color: #A8432B;
-        }
-
-        /* The Shadow Block */
-        .shadow {
-            position: relative;
-            min-height: 100vh;
-            background-image: url('/shadow-bg.png');
-            background-size: cover;
-            color: #F4F1EA;
-            position: relative;
-        }
-
-        .shadow::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: linear-gradient(to bottom, rgba(0,0,0,0.5) 50%, transparent);
-        }
-
-        /* Global Response Block */
-        .global-response .slider {
-            display: flex;
-            overflow-x: scroll;
-            scroll-snap-type: x mandatory;
-            padding: 50px 0;
-            background-color: #7E90A5;
-            color: #F4F1EA;
-            position: relative;
-        }
-
-        .slider-item {
-            min-width: 300px;
-            margin-right: 20px;
-            scroll-snap-align: start;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .slider-item:hover {
-            transform: scale(1.05);
-        }
-
-        /* Footer Block */
-        .footer {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100px;
-            background-color: #A8432B;
-            color: #F4F1EA;
-            font-size: 0.75rem;
-            position: relative;
-        }
-
-        .footer a {
-            color: #F4F1EA;
-            text-decoration: none;
-            margin-right: 10px;
+            .hero-subtitle {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="hero">
-    <h1>AUSSOM — Миссия задержки?</h1>
-</div>
-
-<div class="context" id="context">
-    <div class="timeline" id="timeline">
-        <div class="timeline-item">AMISOM</div>
-        <div class="timeline-item">ATMIS</div>
-        <div class="timeline-item active">AUSSOM</div>
+<div class="hero-section">
+    <video autoplay loop muted playsinline>
+        <source src="hero-video.mp4" type="video/mp4">
+    </video>
+    <div class="glitch-text">
+        <h1 class="hero-title">BRP Lake Caliraya (AF-81)</h1>
+        <p class="hero-subtitle">The Last Anchor.</p>
     </div>
 </div>
 
-<div class="numbers" id="numbers">
-    <div class="country-select">
-        <div class="country-card" data-country="ethiopia">Эфиопия: 10,000</div>
-        <div class="country-card" data-country="uganda">Уганда: 2,000</div>
+<div class="identity-section" id="identity">
+    <h2>Из стали PNOC в флот</h2>
+    <p>Это был не просто корабль. Это двойной корпус, подаренный государству в 2014 году. Единственный китайский актив на палубе Филиппинского ВМФ. Он служил топливным хранилищем для флота — от базы до судна и обратно.</p>
+</div>
+
+<div class="timeline-section" id="timeline">
+    <h2>Жизненный цикл</h2>
+    <div class="timeline-container">
+        <!-- Таймлайн элементы будут добавлены динамически -->
     </div>
 </div>
 
-<div class="fracture" id="fracture">
-    <h2>Политические трения между Сомали и Эфиопией</h2>
-    <p>Меморандум УМСАЭЛ с Сомалилендом.</p>
+<div class="specs-section" id="specs">
+    <h2>Свидетельство (Technical Specs)</h2>
+    <ul>
+        <li><strong>Тоннаж:</strong> 10,000 тонн</li>
+        <li><strong>Вооружение:</strong> Торпеды, ракета-ракетные установки, орудия</li>
+    </ul>
 </div>
 
-<div class="shadow" id="shadow">
-    <h2>Тень на миссии</h2>
-    <p>Полный иммунитет = Полное беззаконие.</p>
+<div class="epilogue-section" id="epilogue">
+    <h2>Эпилог</h2>
+    <p>Судьба BRP Lake Caliraya — это история упорства и храбрости. Несмотря на все трудности, он продолжал служить своей стране до самого конца.</p>
 </div>
 
-<div class="global-response" id="global-response">
-    <h2>Реакция мировых лидеров</h2>
-    <div class="slider">
-        <div class="slider-item">США: "Мы поддерживаем AUSSOM"</div>
-        <div class="slider-item">Франция: "Обсуждение реакции Бурунди/Египта"</div>
-    </div>
-</div>
-
-<div class="footer">
-    <a href="#">Контакты</a>
-    <a href="#">Источники</a>
-    <p>Проект 'Verter' — независимый аналитический инструмент.</p>
+<div class="audio-visual-icon" id="audio-visual">
+    <button onclick="toggleAudioVisual()">Toggle Audio/Visual</button>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
 <script>
-    // Interactivity
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    timelineItems.forEach(item => item.addEventListener('click', () => {
-        timelineItems.forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-    }));
+    document.addEventListener("DOMContentLoaded", function() {
+        const timelineContainer = document.querySelector('.timeline-container');
+        const timelineItems = [
+            { date: '2014', event: 'Подарен государству' },
+            { date: '2015', event: 'Первый миссия' },
+            { date: '2016', event: 'Вторая миссия' },
+            { date: '2017', event: 'Третья миссия' },
+            { date: '2018', event: 'Последняя миссия' }
+        ];
 
-    const countryCards = document.querySelectorAll('.country-card');
-    countryCards.forEach(card => card.addEventListener('mouseover', () => {
-        card.textContent += ` (${card.getAttribute('data-country')})`;
-    }));
+        timelineItems.forEach(item => {
+            const timelineItem = document.createElement('div');
+            timelineItem.classList.add('timeline-item');
+            timelineItem.innerHTML = `
+                <div class="timeline-date">${item.date}</div>
+                <div class="timeline-event">${item.event}</div>
+            `;
+            timelineContainer.appendChild(timelineItem);
+        });
 
-    // Living Somalia Map
-    function createLivingSomaliaMap() {
-        // This is a placeholder for the actual implementation of the living map
-        console.log("Creating living Somalia map...");
-    }
+        gsap.registerPlugin(ScrollTrigger);
 
-    // Noise Effect
-    function addNoiseEffect() {
-        const noiseElement = document.createElement('canvas');
-        noiseElement.style.position = 'fixed';
-        noiseElement.style.top = 0;
-        noiseElement.style.left = 0;
-        noiseElement.style.width = '100%';
-        noiseElement.style.height = '100%';
-        noiseElement.style.pointerEvents = 'none';
-
-        const canvasContext = noiseElement.getContext('2d');
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-
-        function drawNoise() {
-            canvasContext.clearRect(0, 0, width, height);
-            for (let y = 0; y < height; y += 5) {
-                for (let x = 0; x < width; x += 5) {
-                    const noiseValue = Math.random();
-                    if (noiseValue > 0.5) {
-                        canvasContext.fillStyle = '#F4F1EA';
-                    } else {
-                        canvasContext.fillStyle = 'rgba(255, 255, 255, 0.1)';
-                    }
-                    canvasContext.fillRect(x, y, 5, 5);
+        const sections = document.querySelectorAll('.scroll-trigger');
+        sections.forEach(section => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top center",
+                end: "bottom center",
+                onEnter: () => {
+                    section.classList.add('animate__animated', 'animate__fadeInUp');
                 }
-            }
-        }
-
-        setInterval(drawNoise, 100);
-
-        document.body.appendChild(noiseElement);
-    }
-
-    // Truth Slider
-    function createTruthSlider() {
-        const sliderContainer = document.querySelector('.global-response .slider');
-        const sliderItems = Array.from(sliderContainer.children);
-        let currentIndex = 0;
-
-        function moveSlider(index) {
-            sliderItems.forEach((item, i) => {
-                item.style.transform = `translateX(${(i - index) * 100}%)`;
             });
+        });
+
+        const audioVisualIcon = document.getElementById('audio-visual');
+        audioVisualIcon.addEventListener('click', function() {
+            this.style.display = this.style.display === 'none' ? 'block' : 'none';
+        });
+    });
+
+    function toggleAudioVisual() {
+        const icon = document.querySelector('.audio-visual-icon button');
+        if (icon.textContent.includes('Toggle Audio/Visual')) {
+            icon.textContent = 'Hide Audio/Visual';
+        } else {
+            icon.textContent = 'Toggle Audio/Visual';
         }
-
-        setInterval(() => {
-            currentIndex = (currentIndex + 1) % sliderItems.length;
-            moveSlider(currentIndex);
-        }, 3000);
-
-        moveSlider(currentIndex);
+        // Добавьте здесь логику для показа или скрытия аудио-визуальных элементов
     }
-
-    createLivingSomaliaMap();
-    addNoiseEffect();
-    createTruthSlider();
 </script>
 
 </body>
