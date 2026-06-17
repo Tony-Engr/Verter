@@ -1,257 +1,195 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cefn Golau: Stone Echoes</title>
-<style>
-/* Variables */
-:root {
-    --primary-bg: #1A2634;
-    --secondary-text: #7D8C95;
-    --accent-color: #3A4B3F;
-    --rust-color: #C0582E;
-    --font-size-base: 1rem;
-    --transition-duration: 0.3s;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Earth Time: Вход в Новый Завет</title>
+    <!-- Добавляем Google Fonts для соответствия ТЗ -->
+    <link href="https://fonts.googleapis.com/css2?family=Aldrich&display=swap" rel="stylesheet">
+    <style>
+        /* Reset */
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed, 
+        figure, figcaption, footer, header, hgroup, 
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+        
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure, 
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
 
-/* Typography */
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    color: var(--secondary-text);
-    background-color: var(--primary-bg);
-    margin: 0;
-    padding: 0;
-}
+        body {
+            line-height: 1;
+            font-family: 'Aldrich', sans-serif; /* Изменен шрифт для соответствия ТЗ */
+            background-color: #051428;
+            color: #E6F2FF;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
 
-h1, h2, h3 {
-    font-weight: normal;
-    margin-top: 0;
-}
+        .hero-section {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #051428;
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+        }
 
-/* Layout */
-.container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 2rem;
-}
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #051428 0%, #4B0082 50%, #9370DB 75%, #FFD700 100%);
+            animation: gradient 15s ease infinite;
+        }
 
-.flex-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-.hero-section, .context-section, .stones-section, .architecture-section, .sound-section {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
 
-/* Hero Section */
-.hero-section {
-    background-color: var(--primary-bg);
-    position: relative;
-}
+        .header-text h1 {
+            font-size: 3rem;
+            text-align: center;
+            color: #E6F2FF;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.5);
+            margin-bottom: 1rem; /* Добавлено для лучшего отображения */
+        }
 
-.hero-video {
-    width: 100%;
-    height: 100vh;
-    object-fit: cover;
-    opacity: 0.85;
-    z-index: -1;
-}
+        .header-text p {
+            font-size: 1.5rem;
+            text-align: center;
+            color: #D4D4D4;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #E6F2FF;
+            text-shadow: 0 4px 6px rgba(0,0,0,0.5);
+        }
 
-.logo {
-    display: none;
-    animation: fadeIn 2s forwards;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 3rem;
-    color: var(--accent-color);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-}
+        .gallery-item {
+            width: 100%;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease-in-out;
+            will-change: transform;
+        }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
 
-/* Context Section */
-.context-section {
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjN2Q4YzkiLz4KPC9zdmc+') no-repeat;
-    background-size: cover;
-    background-position: center;
-    color: white;
-}
+        .footer {
+            width: 100%;
+            background-color: #051428;
+            color: #D4D4D4;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
 
-.context-content {
-    text-align: center;
-    max-width: 600px;
-    margin: 0 auto;
-}
+        @media (max-width: 768px) {
+            .header-text h1 {
+                font-size: 2.5rem;
+            }
 
-/* Stones Section */
-.stones-section {
-    position: relative;
-    overflow: hidden;
-}
+            .header-text p {
+                font-size: 1.3rem;
+            }
 
-.canvas-container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+            .gallery-item {
+                height: 200px;
+            }
+        }
 
-.marker-tooltip {
-    background-color: var(--primary-bg);
-    color: white;
-    border-radius: 5px;
-    padding: 0.5rem;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-    display: none;
-}
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 0.5rem;
+            }
 
-.marker-tooltip.active {
-    display: block;
-}
+            .header-text h1 {
+                font-size: 2rem;
+            }
 
-/* Architecture Section */
-.architecture-section .container {
-    flex-direction: column;
-    align-items: center;
-}
+            .header-text p {
+                font-size: 1.2rem;
+            }
 
-.gallery-item {
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 2rem;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.gallery-text {
-    text-align: center;
-    font-size: var(--font-size-base);
-}
-
-/* Sound Section */
-.sound-section .container {
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.wind-button, .water-sound-button {
-    background-color: var(--secondary-text);
-    color: white;
-    border: none;
-    padding: 1rem 2rem;
-    font-size: var(--font-size-base);
-    cursor: pointer;
-    position: relative;
-    border-radius: 5px;
-    overflow: hidden;
-}
-
-.wind-button .wind-icon, .water-sound-button .water-icon {
-    margin-right: 0.5rem;
-}
-
-.wind-button:hover, .water-sound-button:hover {
-    background-color: var(--rust-color);
-    transition: background-color var(--transition-duration);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .hero-video {
-        height: auto;
-        padding-top: 56.25%;
-    }
-
-    .logo {
-        font-size: 2rem;
-    }
-
-    .gallery-item {
-        max-width: none;
-    }
-}
-
-@media (min-width: 1024px) {
-    .hero-section {
-        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjN2Q4YzkiLz4KPC9zdmc+') no-repeat;
-    }
-
-    .context-section {
-        background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjN2Q4YzkiLz4KPC9zdmc+') no-repeat;
-    }
-}
-</style>
+            .gallery-item {
+                height: 150px;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<div class="hero-section">
-    <video class="hero-video" autoplay loop muted playsinline>
-        <source src="data:video/mp4;base64,AAAA..." type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-    <div class="logo">Cefn Golau</div>
-</div>
-
-<div class="context-section">
-    <h2>The Great Silence</h2>
-    <p>In 1832, a dense fog enveloped not only nature but also sorrow. Of the nearly thousand inhabitants of the village, thousands perished — half the population. This memorial cemetery became the sole witness to this demographic collapse.</p>
-</div>
-
-<div class="stones-section">
-    <canvas id="stonesCanvas" class="canvas-container"></canvas>
-    <div class="marker-tooltip active">John Doe - 1825</div>
-</div>
-
-<div class="architecture-section">
-    <div class="container">
-        <h2>Architecture & Legacy</h2>
-        <div class="gallery-item">
-            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIA..." alt="Grave">
-            <div class="gallery-text">Stone graves tell the story of individual lives cut short in their prime. Place your hand on the screen — let the wind carry their names to you.</div>
+    <div class="hero-section">
+        <div class="container header-text">
+            <h1>New Earth Time: Вход в Новый Завет</h1>
+            <p>Хватит ждать будущего, начните проживать его прямо сейчас. Переход от 3D ограничений к свободе Сущности.</p>
         </div>
     </div>
-</div>
 
-<div class="sound-section">
-    <div class="container">
-        <h2>Sound of Silence</h2>
-        <button id="windButton" class="wind-button" onclick="toggleWind()">
-            <span class="wind-icon">🍃</span> Wind
-        </button>
-        <button id="waterSoundButton" class="water-sound-button" onclick="toggleWater()">
-            <span class="water-icon">💧</span> Water Sound
-        </button>
-    </div>
-</div>
+    <section class="container">
+        <div class="section-title">Сдвиг Осознания</div>
+        <div class="gallery-item" style="background-image: url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,50 M40,90 Q60,70 80,90 Z' fill='%23E6F2FF'/></svg>)"></div>
+        <div class="gallery-item" style="background-image: url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,50 M90,40 Q70,60 90,80 Z' fill='%23E6F2FF'/></svg>)"></div>
+        <div class="gallery-item" style="background-image: url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,50 M60,40 Q80,60 60,80 Z' fill='%23E6F2FF'/></svg>)"></div>
+        <div class="gallery-item" style="background-image: url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,50 M70,40 Q90,60 70,80 Z' fill='%23E6F2FF'/></svg>)"></div>
+        <div class="gallery-item" style="background-image: url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,50 M80,40 Q60,60 80,80 Z' fill='%23E6F2FF'/></svg>)"></div>
+        <div class="gallery-item" style="background-image: url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,50 M90,40 Q70,60 90,80 Z' fill='%23E6F2FF'/></svg>)"></div>
+        <div class="gallery-item" style="background-image: url(data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50,50 M40,90 Q60,70 80,90 Z' fill='%23E6F2FF'/></svg>)"></div>
+    </section>
 
-<script>
-const windButton = document.getElementById('windButton');
-const waterSoundButton = document.getElementById('waterSoundButton');
+    <footer class="container">
+        <p>Новый Завет</p>
+        <p>Контакты: example@example.com</p>
+        <p>Манифест проекта: Мы живем в 3D, но мы можем перейти в 5D.</p>
+    </footer>
 
-function toggleWind() {
-    windButton.classList.toggle('active');
-}
-
-function toggleWater() {
-    waterSoundButton.classList.toggle('active');
-}
-</script>
-
+    <script>
+        window.addEventListener('scroll', function() {
+            const body = document.body;
+            if (body) { // Проверка на существование элемента перед применением стиля
+                body.style.background = `linear-gradient(45deg, #051428 0%, #4B0082 50%, #9370DB 75%, #FFD700 100%)`;
+            }
+        });
+    </script>
 </body>
 </html>
